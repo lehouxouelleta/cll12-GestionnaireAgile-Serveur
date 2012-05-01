@@ -5,14 +5,19 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
 
 TARGET = GestionnaireAgile-Serveur
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        serveur.cpp
+        serveur.cpp \
+    tcpserveur.cpp \
+    threadserveur.cpp
 
-HEADERS  += serveur.h
+HEADERS  += serveur.h \
+    tcpserveur.h \
+    threadserveur.h
 
 FORMS    += serveur.ui

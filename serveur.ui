@@ -167,15 +167,31 @@
     <property name="title">
      <string>Employés connectés</string>
     </property>
-    <widget class="QListView" name="lvEmployes">
+    <widget class="QTableWidget" name="twEmployes">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
+       <y>20</y>
        <width>441</width>
-       <height>251</height>
+       <height>261</height>
       </rect>
      </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <column>
+      <property name="text">
+       <string>Nom</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Temps de connection</string>
+      </property>
+     </column>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
@@ -190,13 +206,13 @@
     <property name="title">
      <string>Tâches en cours</string>
     </property>
-    <widget class="QListView" name="lvTaches">
+    <widget class="QTableWidget" name="twTaches">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
+       <y>20</y>
        <width>671</width>
-       <height>251</height>
+       <height>261</height>
       </rect>
      </property>
     </widget>
