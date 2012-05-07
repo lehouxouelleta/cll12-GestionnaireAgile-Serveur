@@ -6,6 +6,7 @@
 #include "threadserveur.h"
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QString>
 
 namespace Ui {
 class serveur;
@@ -18,12 +19,14 @@ class serveur : public QMainWindow
 public:
     explicit serveur(QWidget *parent = 0);
     ~serveur();
+    QString Taches[];
     
 private slots:
     void on_btnCreerTache_clicked();
 
     void on_btnConnecter_clicked();
-    void slRecoitNom(QByteArray ba);
+    void slRecoitNom(QString ba);
+    void slFin(QString ba);
 
 private:
     Ui::serveur *ui;

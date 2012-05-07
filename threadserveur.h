@@ -14,7 +14,8 @@ public:
     void run();
     
 signals:
-    void siRecoieConnection(QByteArray);
+    void siRecoieConnection(QString);
+    void siTermineConnection(QString);
     
 public slots:
     

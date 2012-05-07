@@ -12,10 +12,12 @@ public:
     void incomingConnection(int socketDescriptor);
     
 signals:
-    void siRecoieNom(QByteArray);
+    void siRecoieNom(QString);
+    void siFin(QString);
     
 public slots:
-    void slRecoieConnection(QByteArray ba);
+    void slRecoieConnection(QString ba);
+    void slTermineConnection(QString ba);
     
 };
 

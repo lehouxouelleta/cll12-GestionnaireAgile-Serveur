@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>909</width>
+    <width>1029</width>
     <height>625</height>
    </rect>
   </property>
@@ -160,7 +160,7 @@
      <rect>
       <x>440</x>
       <y>10</y>
-      <width>461</width>
+      <width>581</width>
       <height>291</height>
      </rect>
     </property>
@@ -172,7 +172,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>441</width>
+       <width>561</width>
        <height>261</height>
       </rect>
      </property>
@@ -190,6 +190,16 @@
      <column>
       <property name="text">
        <string>Temps de connection</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Tâche en cours</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Nombre de taches</string>
       </property>
      </column>
     </widget>
@@ -215,13 +225,43 @@
        <height>261</height>
       </rect>
      </property>
+     <column>
+      <property name="text">
+       <string>Nom de la tâche</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Description</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Disponible depuis</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Difficulté</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Temps estimé</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Bonus</string>
+      </property>
+     </column>
     </widget>
    </widget>
    <widget class="QPushButton" name="btnConnecter">
     <property name="geometry">
      <rect>
-      <x>750</x>
-      <y>400</y>
+      <x>810</x>
+      <y>390</y>
       <width>91</width>
       <height>25</height>
      </rect>
@@ -233,7 +273,7 @@
    <widget class="QPushButton" name="btnDeconnecter">
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>810</x>
       <y>490</y>
       <width>91</width>
       <height>25</height>
