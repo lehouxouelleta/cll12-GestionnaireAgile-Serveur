@@ -11,6 +11,7 @@ void TCPServeur::incomingConnection(int socketDescriptor)
     ThreadServeur *thServeur =new ThreadServeur(socketDescriptor);
     connect(thServeur,SIGNAL(siRecoieConnection(QString)),this,SLOT(slRecoieConnection(QString)));
     connect(thServeur,SIGNAL(siTermineConnection(QString)),this,SLOT(slTermineConnection(QString)));
+    connect(this,SIGNAL(siNouvelleTache(QStringList)),thServeur,SLOT(slNouvelleTache(QStringList)));
     thServeur->start();
 }
 
@@ -22,4 +23,9 @@ void TCPServeur::slRecoieConnection(QString ba)
 void TCPServeur::slTermineConnection(QString ba)
 {
     emit(siFin(ba));
+}
+
+void TCPServeur::slEnvoieTache(QStringList qsl)
+{
+    emit(siNouvelleTache(qsl));
 }

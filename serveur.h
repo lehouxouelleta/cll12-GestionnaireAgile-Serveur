@@ -19,7 +19,7 @@ class serveur : public QMainWindow
 public:
     explicit serveur(QWidget *parent = 0);
     ~serveur();
-    QString Taches[];
+    QStringList Taches;
     
 private slots:
     void on_btnCreerTache_clicked();
@@ -27,6 +27,9 @@ private slots:
     void on_btnConnecter_clicked();
     void slRecoitNom(QString ba);
     void slFin(QString ba);
+
+signals:
+    void siEnvoieTaches(QStringList);
 
 private:
     Ui::serveur *ui;

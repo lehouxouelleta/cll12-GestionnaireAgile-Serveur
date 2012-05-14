@@ -11,6 +11,9 @@ public:
     explicit ThreadServeur(int Descriptor = 0);
     QTcpSocket *socket;
     int m_socketDescriptor;
+    int codeServeur;
+    int codeClient;
+    QByteArray baTaches;
     void run();
     
 signals:
@@ -18,6 +21,7 @@ signals:
     void siTermineConnection(QString);
     
 public slots:
+    void slNouvelleTache(QStringList);
     
 };
 

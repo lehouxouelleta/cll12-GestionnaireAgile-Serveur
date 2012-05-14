@@ -14,10 +14,12 @@ public:
 signals:
     void siRecoieNom(QString);
     void siFin(QString);
+    void siNouvelleTache(QStringList);
     
 public slots:
     void slRecoieConnection(QString ba);
     void slTermineConnection(QString ba);
+    void slEnvoieTache(QStringList);
     
 };
 
