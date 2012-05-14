@@ -52,5 +52,14 @@ void serveur::slRecoitNom(QString ba)
 
 void serveur::slFin(QString ba)
 {
-    ui->twEmployes->removeRow(ui->twEmployes->rowCount()-1);
+    QTableWidgetItem *qti;
+    for(int i=0;i<ui->twEmployes->rowCount();i++)
+    {
+        qti=(ui->twEmployes->item(i,0));
+        if(qti->text()==ba)
+        {
+            ui->twEmployes->removeRow(i);
+        }
+
+    }
 }
