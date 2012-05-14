@@ -46,12 +46,14 @@ void ThreadServeur::run()
                 switch (codeServeur)
                 {
                     case 2:
-                    socket.write(baTaches);
-                    socket.waitForBytesWritten();
+
                     break;
                 }
             }
         }
+        //Renvoi des tâches
+        socket.write(baTaches);
+        socket.waitForBytesWritten();
 
     }while(str.at(0)!="9");
 
@@ -62,7 +64,6 @@ void ThreadServeur::run()
 
 void ThreadServeur::slNouvelleTache(QStringList qsl)
 {
-    codeServeur=2;
     baTaches=0;
     baTaches.append(2);
     baTaches.append(";");
