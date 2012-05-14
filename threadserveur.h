@@ -12,13 +12,14 @@ public:
     QTcpSocket *socket;
     int m_socketDescriptor;
     int codeServeur;
-    int codeClient;
+    QString codeClient;
     QByteArray baTaches;
     void run();
     
 signals:
     void siRecoieConnection(QString);
     void siTermineConnection(QString);
+    void siTacheTerminee(QString);
     
 public slots:
     void slNouvelleTache(QStringList);

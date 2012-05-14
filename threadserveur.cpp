@@ -13,7 +13,7 @@ void ThreadServeur::run()
     QByteArray baReception;
     QStringList str;
     codeServeur=0;
-    codeClient=0;
+    codeClient="0";
     socket.setSocketDescriptor(m_socketDescriptor);
     socket.waitForConnected();
     socket.waitForReadyRead();
@@ -38,17 +38,18 @@ void ThreadServeur::run()
             baReception=socket.read(socket.bytesAvailable());
             strReception=baReception;
             str=strReception.split(';');
+            codeClient=str.at(0);
+            if(codeClient=="5")
+            {
+                emit(siTacheTerminee(str.at(1)));
+            }
+            codeClient="0";
         }
         else
         {
             if(codeServeur!=0)
             {
-                switch (codeServeur)
-                {
-                    case 2:
 
-                    break;
-                }
             }
         }
         //Renvoi des tâches

@@ -27,9 +27,12 @@ private slots:
     void on_btnConnecter_clicked();
     void slRecoitNom(QString ba);
     void slFin(QString ba);
+    void slEnleverTache(QString);
+
+    void on_btnDeconnecter_clicked();
 
 signals:
-    void siEnvoieTaches(QStringList);
+    void siEnvoieTaches(QStringList);    
 
 private:
     Ui::serveur *ui;

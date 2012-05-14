@@ -38,6 +38,7 @@ void serveur::on_btnConnecter_clicked()
     connect(socketServeur,SIGNAL(siRecoieNom(QString)),this,SLOT(slRecoitNom(QString)));
     connect(socketServeur,SIGNAL(siFin(QString)),this,SLOT(slFin(QString)));
     connect(this,SIGNAL(siEnvoieTaches(QStringList)),socketServeur,SLOT(slEnvoieTache(QStringList)));
+    connect(socketServeur,SIGNAL(siEnleverTache(QString)),this,SLOT(slEnleverTache(QString)));
     socketServeur->listen(QHostAddress::Any, 60123);
 }
 
@@ -62,4 +63,18 @@ void serveur::slFin(QString ba)
         }
 
     }
+}
+
+void serveur::slEnleverTache(QString str)
+{
+    int i=str.toInt();
+    ui->twTaches->removeRow(i+1);
+    //ui->twTaches->setRowCount(ui->twTaches->rowCount()-1);
+    Taches.removeAt(i+1);
+    emit(siEnvoieTaches(Taches));
+}
+
+void serveur::on_btnDeconnecter_clicked()
+{
+
 }
