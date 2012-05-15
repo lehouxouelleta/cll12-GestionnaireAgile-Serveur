@@ -22,6 +22,7 @@ public:
     ~serveur();
     QStringList Taches;
     QTimer *ti;
+    QTcpServer *socketServeur;
     
 private slots:
     void on_btnCreerTache_clicked();
@@ -29,14 +30,15 @@ private slots:
     void on_btnConnecter_clicked();
     void slRecoitNom(QString ba);
     void slFin(QString ba);
-    void slEnleverTache(QString);
+    void slEnleverTache(QString, QString nom);
 
     void on_btnDeconnecter_clicked();
     void update();
+    void slFermer();
 
 signals:
     void siEnvoieTaches(QStringList);
-    void timeout();
+    void siDeconnecter();
 
 private:
     Ui::serveur *ui;

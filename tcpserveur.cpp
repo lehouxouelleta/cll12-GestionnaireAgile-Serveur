@@ -12,7 +12,9 @@ void TCPServeur::incomingConnection(int socketDescriptor)
     connect(thServeur,SIGNAL(siRecoieConnection(QString)),this,SLOT(slRecoieConnection(QString)));
     connect(thServeur,SIGNAL(siTermineConnection(QString)),this,SLOT(slTermineConnection(QString)));
     connect(this,SIGNAL(siNouvelleTache(QStringList)),thServeur,SLOT(slNouvelleTache(QStringList)));
-    connect(thServeur,SIGNAL(siTacheTerminee(QString)),this,SLOT(slTacheTerminee(QString)));
+    connect(thServeur,SIGNAL(siTacheTerminee(QString,QString)),this,SLOT(slTacheTerminee(QString,QString)));
+    connect(this,SIGNAL(siDeconnection()),thServeur,SLOT(slDeconnection()));
+    connect(thServeur,SIGNAL(siFermeture()),this,SLOT(slFermeture()));
     thServeur->start();
 }
 
@@ -31,7 +33,18 @@ void TCPServeur::slEnvoieTache(QStringList qsl)
     emit(siNouvelleTache(qsl));
 }
 
-void TCPServeur::slTacheTerminee(QString str)
+void TCPServeur::slTacheTerminee(QString str,QString nom)
 {
-    emit(siEnleverTache(str));
+    emit(siEnleverTache(str,nom));
+}
+
+void TCPServeur::slDeconnecter()
+{
+    emit(siDeconnection());
+}
+
+void TCPServeur::slFermeture()
+{
+    this->close();
+    emit(siFermer());
 }

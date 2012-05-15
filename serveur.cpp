@@ -8,7 +8,7 @@ serveur::serveur(QWidget *parent) :
     ui->setupUi(this);
     ui->twEmployes->resizeColumnsToContents();
     ui->twTaches->resizeColumnsToContents();
-    ti=new QTimer();
+    ti=new QTimer(this);
     connect(ti, SIGNAL(timeout()), this, SLOT(update()));
     ti->setInterval(1000);
     ti->start();
@@ -27,6 +27,7 @@ void serveur::on_btnCreerTache_clicked()
     ui->twTaches->setRowCount(ui->twTaches->rowCount()+1);
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,0,new QTableWidgetItem(ui->txtTitre->text()));
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,1,new QTableWidgetItem(ui->txtDescription->text()));
+    ui->twTaches->setItem(ui->twTaches->rowCount()-1,2,new QTableWidgetItem("0"));
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,3,new QTableWidgetItem(ui->txtDifficulte->text()));
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,4,new QTableWidgetItem(ui->txtTemps->text()));
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,5,new QTableWidgetItem(ui->txtBonus->text()));
@@ -40,16 +41,23 @@ void serveur::on_btnConnecter_clicked()
     connect(socketServeur,SIGNAL(siRecoieNom(QString)),this,SLOT(slRecoitNom(QString)));
     connect(socketServeur,SIGNAL(siFin(QString)),this,SLOT(slFin(QString)));
     connect(this,SIGNAL(siEnvoieTaches(QStringList)),socketServeur,SLOT(slEnvoieTache(QStringList)));
-    connect(socketServeur,SIGNAL(siEnleverTache(QString)),this,SLOT(slEnleverTache(QString)));
+    connect(socketServeur,SIGNAL(siEnleverTache(QString,QString)),this,SLOT(slEnleverTache(QString,QString)));
+    connect(this,SIGNAL(siDeconnecter()),socketServeur,SLOT(slDeconnecter()));
+    connect(socketServeur,SIGNAL(siFermer()),this,SLOT(slFermer()));
     socketServeur->listen(QHostAddress::Any, 60123);
+
+    ui->btnDeconnecter->setEnabled(true);
+    ui->btnConnecter->setEnabled(false);
 }
 
 void serveur::slRecoitNom(QString ba)
 {
-    ui->twEmployes->setColumnCount(2);
+    ui->twEmployes->setColumnCount(4);
     ui->twEmployes->setRowCount(ui->twEmployes->rowCount()+1);
     ui->twEmployes->setItem(ui->twEmployes->rowCount()-1,0,new QTableWidgetItem(ba));
     ui->twEmployes->setItem(ui->twEmployes->rowCount()-1,1,new QTableWidgetItem("0"));
+    ui->twEmployes->setItem(ui->twEmployes->rowCount()-1,2,new QTableWidgetItem("0"));
+    ui->twEmployes->setItem(ui->twEmployes->rowCount()-1,3,new QTableWidgetItem("0"));
     ui->twEmployes->resizeColumnsToContents();
     emit(siEnvoieTaches(Taches));
 }
@@ -67,24 +75,46 @@ void serveur::slFin(QString ba)
     }
 }
 
-void serveur::slEnleverTache(QString str)
+void serveur::slEnleverTache(QString str,QString nom)
 {
     QByteArray i=str.toLocal8Bit();
     ui->twTaches->removeRow(i[0]);
     //ui->twTaches->setRowCount(ui->twTaches->rowCount()-1);
     Taches.removeAt(i[0]);
+
+    QTableWidgetItem *qti;
+    for(int i=0;i<ui->twEmployes->rowCount();i++)
+    {
+        qti=(ui->twEmployes->item(i,0));
+        if(qti->text()==nom)
+        {
+            ui->twEmployes->setItem(i,3,new QTableWidgetItem(QString::number(ui->twEmployes->item(i,3)->text().toInt()+1)));
+        }
+    }
+
     emit(siEnvoieTaches(Taches));
 }
 
 void serveur::on_btnDeconnecter_clicked()
 {
-
+    emit(siDeconnecter());
+    ui->btnConnecter->setEnabled(true);
+    ui->btnDeconnecter->setEnabled(false);
 }
 
 void serveur::update()
 {
     for(int i=0;i<ui->twEmployes->rowCount();i++)
     {
-        ui->twEmployes->setItem(i,1,new QTableWidgetItem(QString::number(ui->twEmployes->itemAt(i,1)->text().toInt()+1)));
+        ui->twEmployes->setItem(i,1,new QTableWidgetItem(QString::number(ui->twEmployes->item(i,1)->text().toInt()+1)));
     }
+    for(int i=0;i<ui->twTaches->rowCount();i++)
+    {
+        ui->twTaches->setItem(i,2,new QTableWidgetItem(QString::number(ui->twTaches->item(i,2)->text().toInt()+1)));
+    }
+}
+
+void serveur::slFermer()
+{
+
 }

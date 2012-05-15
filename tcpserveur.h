@@ -15,13 +15,17 @@ signals:
     void siRecoieNom(QString);
     void siFin(QString);
     void siNouvelleTache(QStringList);
-    void siEnleverTache(QString);
+    void siEnleverTache(QString,QString);
+    void siDeconnection();
+    void siFermer();
     
 public slots:
     void slRecoieConnection(QString ba);
     void slTermineConnection(QString ba);
     void slEnvoieTache(QStringList);
-    void slTacheTerminee(QString);
+    void slTacheTerminee(QString, QString nom);
+    void slDeconnecter();
+    void slFermeture();
     
 };
 

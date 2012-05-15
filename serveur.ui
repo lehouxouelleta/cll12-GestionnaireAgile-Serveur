@@ -291,6 +291,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="btnDeconnecter">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>860</x>
