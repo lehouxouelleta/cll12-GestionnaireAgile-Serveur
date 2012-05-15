@@ -31,6 +31,7 @@ void serveur::on_btnCreerTache_clicked()
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,3,new QTableWidgetItem(ui->txtDifficulte->text()));
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,4,new QTableWidgetItem(ui->txtTemps->text()));
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,5,new QTableWidgetItem(ui->txtBonus->text()));
+    ui->twTaches->setItem(ui->twTaches->rowCount()-1,6,new QTableWidgetItem("0"));
     ui->twTaches->resizeColumnsToContents();
     emit(siEnvoieTaches(Taches));
 }
@@ -44,6 +45,8 @@ void serveur::on_btnConnecter_clicked()
     connect(socketServeur,SIGNAL(siEnleverTache(QString,QString)),this,SLOT(slEnleverTache(QString,QString)));
     connect(this,SIGNAL(siDeconnecter()),socketServeur,SLOT(slDeconnecter()));
     connect(socketServeur,SIGNAL(siFermer()),this,SLOT(slFermer()));
+    connect(socketServeur,SIGNAL(siTachePrise(QString,QString)),this,SLOT(slTachePrise(QString,QString)));
+    connect(socketServeur,SIGNAL(siAbandonnee(QString,QString)),this,SLOT(slAbandonnee(QString,QString)));
     socketServeur->listen(QHostAddress::Any, 60123);
 
     ui->btnDeconnecter->setEnabled(true);
@@ -117,4 +120,34 @@ void serveur::update()
 void serveur::slFermer()
 {
 
+}
+
+void serveur::slTachePrise(QString tache, QString nom)
+{
+    QTableWidgetItem *qti;
+    for(int i=0;i<ui->twEmployes->rowCount();i++)
+    {
+        qti=(ui->twEmployes->item(i,0));
+        if(qti->text()==nom)
+        {
+            ui->twEmployes->setItem(i,2,new QTableWidgetItem(QString::number(1)));
+        }
+    }
+
+    ui->twTaches->setItem(tache.toInt(),6,new QTableWidgetItem(QString::number(1)));
+}
+
+void serveur::slAbandonnee(QString tache, QString nom)
+{
+    QTableWidgetItem *qti;
+    for(int i=0;i<ui->twEmployes->rowCount();i++)
+    {
+        qti=(ui->twEmployes->item(i,0));
+        if(qti->text()==nom)
+        {
+            ui->twEmployes->setItem(i,2,new QTableWidgetItem(QString::number(0)));
+        }
+    }
+
+    ui->twTaches->setItem(tache.toInt(),6,new QTableWidgetItem(QString::number(0)));
 }

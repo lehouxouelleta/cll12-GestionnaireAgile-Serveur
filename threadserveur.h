@@ -23,6 +23,8 @@ signals:
     void siTermineConnection(QString);
     void siTacheTerminee(QString,QString);
     void siFermeture();
+    void siPrendreTache(QString,QString);
+    void siAbandon(QString,QString);
     
 public slots:
     void slNouvelleTache(QStringList);

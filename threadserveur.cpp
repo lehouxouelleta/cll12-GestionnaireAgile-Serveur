@@ -45,6 +45,14 @@ void ThreadServeur::run()
             {
                 emit(siTacheTerminee(str.at(1),nomClient));
             }
+            if(codeClient=="6")
+            {
+                emit(siPrendreTache(str.at(1),nomClient));
+            }
+            if(codeClient=="7")
+            {
+                emit(siAbandon(str.at(1),nomClient));
+            }
             codeClient="0";
         }
         else
@@ -52,7 +60,7 @@ void ThreadServeur::run()
             //
         }
         //Renvoi des tâches
-        //socket.write(baTaches);
+        socket.write(baTaches);
         if(socket.state()==QAbstractSocket::UnconnectedState)
         {
             emit(siTermineConnection(nomClient));
@@ -60,7 +68,7 @@ void ThreadServeur::run()
         }
         else
         {
-            //socket.waitForBytesWritten(1000);
+            socket.waitForBytesWritten(1000);
             if(codeServeur!=0)
             {
                 if(codeServeur==8)

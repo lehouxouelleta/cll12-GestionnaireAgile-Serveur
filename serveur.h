@@ -35,6 +35,8 @@ private slots:
     void on_btnDeconnecter_clicked();
     void update();
     void slFermer();
+    void slTachePrise(QString,QString);
+    void slAbandonnee(QString,QString);
 
 signals:
     void siEnvoieTaches(QStringList);

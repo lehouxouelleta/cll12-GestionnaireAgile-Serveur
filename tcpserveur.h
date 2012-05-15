@@ -18,6 +18,8 @@ signals:
     void siEnleverTache(QString,QString);
     void siDeconnection();
     void siFermer();
+    void siTachePrise(QString,QString);
+    void siAbandonnee(QString,QString);
     
 public slots:
     void slRecoieConnection(QString ba);
@@ -26,7 +28,8 @@ public slots:
     void slTacheTerminee(QString, QString nom);
     void slDeconnecter();
     void slFermeture();
-    
+    void slPrendreTache(QString,QString);
+    void slAbandon(QString,QString);
 };
 
 #endif // TCPSERVEUR_H
