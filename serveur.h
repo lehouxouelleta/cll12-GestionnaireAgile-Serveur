@@ -7,6 +7,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QString>
+#include <QTimer>
 
 namespace Ui {
 class serveur;
@@ -20,6 +21,7 @@ public:
     explicit serveur(QWidget *parent = 0);
     ~serveur();
     QStringList Taches;
+    QTimer *ti;
     
 private slots:
     void on_btnCreerTache_clicked();
@@ -30,9 +32,11 @@ private slots:
     void slEnleverTache(QString);
 
     void on_btnDeconnecter_clicked();
+    void update();
 
 signals:
-    void siEnvoieTaches(QStringList);    
+    void siEnvoieTaches(QStringList);
+    void timeout();
 
 private:
     Ui::serveur *ui;

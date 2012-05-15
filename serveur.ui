@@ -182,6 +182,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
@@ -212,7 +215,7 @@
      <rect>
       <x>10</x>
       <y>310</y>
-      <width>691</width>
+      <width>781</width>
       <height>291</height>
      </rect>
     </property>
@@ -224,9 +227,12 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>671</width>
+       <width>761</width>
        <height>261</height>
       </rect>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
      </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::ExtendedSelection</enum>
@@ -264,12 +270,17 @@
        <string>Bonus</string>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>Disponibilité</string>
+      </property>
+     </column>
     </widget>
    </widget>
    <widget class="QPushButton" name="btnConnecter">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>860</x>
       <y>390</y>
       <width>91</width>
       <height>25</height>
@@ -282,7 +293,7 @@
    <widget class="QPushButton" name="btnDeconnecter">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>860</x>
       <y>490</y>
       <width>91</width>
       <height>25</height>
