@@ -21,7 +21,6 @@ serveur::~serveur()
 
 void serveur::on_btnCreerTache_clicked()
 {
-    //numero;titre;description;difficulte;temps;bonus
     Taches.append(QString(Taches.size()+1)+';'+ui->txtTitre->text()+';'+ui->txtDescription->text()+';'+ui->txtDifficulte->text()+';'+ui->txtTemps->text()+';'+ui->txtBonus->text()+';'+"0"+'%');
     ui->twTaches->setColumnCount(8);
     ui->twTaches->setRowCount(ui->twTaches->rowCount()+1);
@@ -98,7 +97,6 @@ void serveur::slEnleverTache(QString str,QString nom)
 {
     QByteArray i=str.toLocal8Bit();
     ui->twTaches->removeRow(i[0]);
-    //ui->twTaches->setRowCount(ui->twTaches->rowCount()-1);
     Taches.removeAt(i[0]);
 
     QTableWidgetItem *qti;
@@ -141,34 +139,23 @@ void serveur::slFermer()
 void serveur::slTachePrise(QString tache, QString nom)
 {
     QTableWidgetItem *qti;
-//    QString code="#";
-
-//    if(ui->twTaches->item(tache.toInt(),6)->text()=="0")
-//    {
-        for(int i=0;i<ui->twEmployes->rowCount();i++)
+    for(int i=0;i<ui->twEmployes->rowCount();i++)
+    {
+        qti=(ui->twEmployes->item(i,0));
+        if(qti->text()==nom)
         {
-            qti=(ui->twEmployes->item(i,0));
-            if(qti->text()==nom)
-            {
-                ui->twEmployes->setItem(i,2,new QTableWidgetItem(QString::number(1)));
-            }
+            ui->twEmployes->setItem(i,2,new QTableWidgetItem(QString::number(1)));
         }
+    }
 
-        QString strTache=Taches.at(tache.toInt());
-        strTache.replace(strTache.length()-2,1,"1");
-        Taches.replace(tache.toInt(),strTache);
+    QString strTache=Taches.at(tache.toInt());
+    strTache.replace(strTache.length()-2,1,"1");
+    Taches.replace(tache.toInt(),strTache);
 
-        ui->twTaches->setItem(tache.toInt(),6,new QTableWidgetItem(QString::number(1)));
-        ui->twTaches->setItem(tache.toInt(),7,new QTableWidgetItem(QString(nom)));
+    ui->twTaches->setItem(tache.toInt(),6,new QTableWidgetItem(QString::number(1)));
+    ui->twTaches->setItem(tache.toInt(),7,new QTableWidgetItem(QString(nom)));
 
-        emit(siEnvoieTaches(Taches));
-//    }
-//    else
-//    {
-//        code="@";
-//    }
-
-//    emit(siReponse(code));
+    emit(siEnvoieTaches(Taches));
 }
 
 void serveur::slAbandonnee(QString tache, QString nom)

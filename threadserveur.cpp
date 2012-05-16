@@ -15,7 +15,6 @@ void ThreadServeur::run()
     codeServeur=0;
     codeClient="0";
     termine=1;
-    //valide="0";
     socket.setSocketDescriptor(m_socketDescriptor);
     socket.waitForConnected();
     socket.waitForReadyRead();
@@ -49,14 +48,6 @@ void ThreadServeur::run()
             if(codeClient=="6")
             {
                 emit(siPrendreTache(str.at(1),nomClient));
-//                while(valide=="0")
-//                {
-
-//                }
-//                socket.write(valide.toLocal8Bit());
-//                socket.waitForBytesWritten();
-//                socket.flush();
-//                valide="0";
             }
             if(codeClient=="7")
             {
@@ -64,11 +55,6 @@ void ThreadServeur::run()
             }
             codeClient="0";
         }
-        else
-        {
-            //
-        }
-        //Renvoi des tâches
         socket.write(baTaches);
         socket.waitForBytesWritten();
         if(socket.state()==QAbstractSocket::UnconnectedState)
@@ -126,5 +112,5 @@ void ThreadServeur::slDeconnection()
 
 void ThreadServeur::slRepondu(QString str)
 {
-    //valide=str;
+
 }
