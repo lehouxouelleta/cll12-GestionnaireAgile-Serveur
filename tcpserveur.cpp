@@ -17,6 +17,7 @@ void TCPServeur::incomingConnection(int socketDescriptor)
     connect(thServeur,SIGNAL(siFermeture()),this,SLOT(slFermeture()));
     connect(thServeur,SIGNAL(siPrendreTache(QString,QString)),this,SLOT(slPrendreTache(QString,QString)));
     connect(thServeur,SIGNAL(siAbandon(QString,QString)),this,SLOT(slAbandon(QString,QString)));
+    connect(this,SIGNAL(siRepondu(QString)),thServeur,SLOT(slRepondu(QString)));
     thServeur->start();
 }
 
@@ -59,4 +60,9 @@ void TCPServeur::slPrendreTache(QString tache, QString nom)
 void TCPServeur::slAbandon(QString tache, QString nom)
 {
     emit(siAbandonnee(tache,nom));
+}
+
+void TCPServeur::slReponse(QString str)
+{
+    emit(siRepondu(str));
 }

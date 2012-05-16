@@ -41,6 +41,7 @@ private slots:
 signals:
     void siEnvoieTaches(QStringList);
     void siDeconnecter();
+    void siReponse(QString);
 
 private:
     Ui::serveur *ui;

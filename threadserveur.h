@@ -16,6 +16,7 @@ public:
     QString codeClient;
     QByteArray baTaches;
     bool termine;
+    QString valide;
     void run();
     
 signals:
@@ -29,6 +30,7 @@ signals:
 public slots:
     void slNouvelleTache(QStringList);
     void slDeconnection();
+    void slRepondu(QString);
     
 };
 

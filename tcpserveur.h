@@ -20,6 +20,7 @@ signals:
     void siFermer();
     void siTachePrise(QString,QString);
     void siAbandonnee(QString,QString);
+    void siRepondu(QString);
     
 public slots:
     void slRecoieConnection(QString ba);
@@ -30,6 +31,7 @@ public slots:
     void slFermeture();
     void slPrendreTache(QString,QString);
     void slAbandon(QString,QString);
+    void slReponse(QString);
 };
 
 #endif // TCPSERVEUR_H

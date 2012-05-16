@@ -22,8 +22,8 @@ serveur::~serveur()
 void serveur::on_btnCreerTache_clicked()
 {
     //numero;titre;description;difficulte;temps;bonus
-    Taches.append(QString(Taches.size()+1)+';'+ui->txtTitre->text()+';'+ui->txtDescription->text()+';'+ui->txtDifficulte->text()+';'+ui->txtTemps->text()+';'+ui->txtBonus->text()+'%');
-    ui->twTaches->setColumnCount(7);
+    Taches.append(QString(Taches.size()+1)+';'+ui->txtTitre->text()+';'+ui->txtDescription->text()+';'+ui->txtDifficulte->text()+';'+ui->txtTemps->text()+';'+ui->txtBonus->text()+';'+"0"+'%');
+    ui->twTaches->setColumnCount(8);
     ui->twTaches->setRowCount(ui->twTaches->rowCount()+1);
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,0,new QTableWidgetItem(ui->txtTitre->text()));
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,1,new QTableWidgetItem(ui->txtDescription->text()));
@@ -32,6 +32,7 @@ void serveur::on_btnCreerTache_clicked()
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,4,new QTableWidgetItem(ui->txtTemps->text()));
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,5,new QTableWidgetItem(ui->txtBonus->text()));
     ui->twTaches->setItem(ui->twTaches->rowCount()-1,6,new QTableWidgetItem("0"));
+    ui->twTaches->setItem(ui->twTaches->rowCount()-1,7,new QTableWidgetItem("aucun"));
     ui->twTaches->resizeColumnsToContents();
     emit(siEnvoieTaches(Taches));
 }
@@ -47,6 +48,7 @@ void serveur::on_btnConnecter_clicked()
     connect(socketServeur,SIGNAL(siFermer()),this,SLOT(slFermer()));
     connect(socketServeur,SIGNAL(siTachePrise(QString,QString)),this,SLOT(slTachePrise(QString,QString)));
     connect(socketServeur,SIGNAL(siAbandonnee(QString,QString)),this,SLOT(slAbandonnee(QString,QString)));
+    connect(this,SIGNAL(siReponse(QString)),socketServeur,SLOT(slReponse(QString)));
     socketServeur->listen(QHostAddress::Any, 60123);
 
     ui->btnDeconnecter->setEnabled(true);
@@ -76,6 +78,20 @@ void serveur::slFin(QString ba)
             ui->twEmployes->removeRow(i);
         }
     }
+    for(int i=0;i<ui->twTaches->rowCount();i++)
+    {
+        qti=(ui->twTaches->item(i,7));
+        if(qti->text()==ba)
+        {
+            ui->twTaches->setItem(i,6,new QTableWidgetItem(QString::number(0)));
+            ui->twTaches->setItem(i,7,new QTableWidgetItem(QString("aucun")));
+
+            QString strTache=Taches.at(i);
+            strTache.replace(strTache.length()-2,1,"0");
+            Taches.replace(i,strTache);
+        }
+    }
+    emit(siEnvoieTaches(Taches));
 }
 
 void serveur::slEnleverTache(QString str,QString nom)
@@ -125,16 +141,34 @@ void serveur::slFermer()
 void serveur::slTachePrise(QString tache, QString nom)
 {
     QTableWidgetItem *qti;
-    for(int i=0;i<ui->twEmployes->rowCount();i++)
-    {
-        qti=(ui->twEmployes->item(i,0));
-        if(qti->text()==nom)
-        {
-            ui->twEmployes->setItem(i,2,new QTableWidgetItem(QString::number(1)));
-        }
-    }
+//    QString code="#";
 
-    ui->twTaches->setItem(tache.toInt(),6,new QTableWidgetItem(QString::number(1)));
+//    if(ui->twTaches->item(tache.toInt(),6)->text()=="0")
+//    {
+        for(int i=0;i<ui->twEmployes->rowCount();i++)
+        {
+            qti=(ui->twEmployes->item(i,0));
+            if(qti->text()==nom)
+            {
+                ui->twEmployes->setItem(i,2,new QTableWidgetItem(QString::number(1)));
+            }
+        }
+
+        QString strTache=Taches.at(tache.toInt());
+        strTache.replace(strTache.length()-2,1,"1");
+        Taches.replace(tache.toInt(),strTache);
+
+        ui->twTaches->setItem(tache.toInt(),6,new QTableWidgetItem(QString::number(1)));
+        ui->twTaches->setItem(tache.toInt(),7,new QTableWidgetItem(QString(nom)));
+
+        emit(siEnvoieTaches(Taches));
+//    }
+//    else
+//    {
+//        code="@";
+//    }
+
+//    emit(siReponse(code));
 }
 
 void serveur::slAbandonnee(QString tache, QString nom)
@@ -149,5 +183,12 @@ void serveur::slAbandonnee(QString tache, QString nom)
         }
     }
 
+    QString strTache=Taches.at(tache.toInt());
+    strTache.replace(strTache.length()-2,1,"0");
+    Taches.replace(tache.toInt(),strTache);
+
     ui->twTaches->setItem(tache.toInt(),6,new QTableWidgetItem(QString::number(0)));
+    ui->twTaches->setItem(tache.toInt(),7,new QTableWidgetItem(QString("aucun")));
+
+    emit(siEnvoieTaches(Taches));
 }
